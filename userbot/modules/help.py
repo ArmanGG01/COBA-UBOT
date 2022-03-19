@@ -7,7 +7,7 @@
 
 from userbot import CMD_HANDLER as cmd
 from userbot import CMD_HELP, EMOJI_HELP, bot
-from userbot.utils import edit_delete, edit_or_reply, coba_cmd
+from userbot.utils import edit_delete, edit_or_reply, kar_cmd
 
 modules = CMD_HELP
 
@@ -16,7 +16,7 @@ DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 # ============================================
 
 
-@coba_cmd(outgoing=True, pattern="^.help(?: |$)(.*)")
+@kar_cmd(outgoing=True, pattern="^.help(?: |$)(.*)")
 async def help(KarmanNewuser_bot):
     """ For .help command,"""
     args = KarmanNewuser_bot.pattern_match.group(1).lower()
