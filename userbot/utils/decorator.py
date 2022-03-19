@@ -21,7 +21,7 @@ from userbot import (
 )
 
 
-def coba_cmd(
+def kar_cmd(
     pattern: str = None,
     allow_sudo: bool = True,
     disable_edited: bool = False,
@@ -55,14 +55,14 @@ def coba_cmd(
         else:
             coba_ = "\\" + CMD_HANDLER
             sudo_ = "\\" + SUDO_HANDLER
-            coba_reg = re.compile(coba_ + pattern)
+            kar_reg = re.compile(coba_ + pattern)
             sudo_reg = re.compile(sudo_ + pattern)
             if command is not None:
-                cmd1 = coba_ + command
-                cmd2 = coba_ + command
+                cmd1 = kar_ + command
+                cmd2 = kar_ + command
             else:
                 cmd1 = (
-                    (ram_ + pattern).replace("$", "").replace("\\", "").replace("^", "")
+                    (kar_ + pattern).replace("$", "").replace("\\", "").replace("^", "")
                 )
                 cmd2 = (
                     (sudo_ + pattern)
@@ -79,10 +79,10 @@ def coba_cmd(
     def decorator(func):
         if not disable_edited:
             bot.add_event_handler(
-                func, events.MessageEdited(**args, outgoing=True, pattern=coba_reg)
+                func, events.MessageEdited(**args, outgoing=True, pattern=kar_reg)
             )
         bot.add_event_handler(
-            func, events.NewMessage(**args, outgoing=True, pattern=coba_reg)
+            func, events.NewMessage(**args, outgoing=True, pattern=kar_reg)
         )
         if allow_sudo:
             if not disable_edited:
@@ -106,7 +106,7 @@ def coba_cmd(
 
     return decorator
 
-def coba_handler(
+def kar_handler(
     **args,
 ):
     def decorator(func):
