@@ -20,7 +20,9 @@ import logging
 
 
 from userbot import BOT_USERNAME
-from userbot.events import register
+from userbot import CMD_HANDLER as cmd
+from userbot import bot
+from userbot.utils import edit_or_reply, coba_cmd
 
 logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
