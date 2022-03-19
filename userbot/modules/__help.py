@@ -22,14 +22,14 @@ import logging
 from userbot import BOT_USERNAME
 from userbot import CMD_HANDLER as cmd
 from userbot import bot
-from userbot.utils import edit_or_reply, coba_cmd
+from userbot.utils import edit_or_reply, kar_cmd
 
 logging.basicConfig(
     format="[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s",
     level=logging.WARNING)
 
 
-@register(outgoing=True, pattern=r"^\.rhelp")
+@kar_cmd(outgoing=True, pattern=r"^\.rhelp")
 async def yardim(event):
     try:
         tgbotusername = BOT_USERNAME
