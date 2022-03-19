@@ -21,7 +21,7 @@ from userbot import (
 )
 
 
-def ram_cmd(
+def coba_cmd(
     pattern: str = None,
     allow_sudo: bool = True,
     disable_edited: bool = False,
@@ -55,7 +55,7 @@ def ram_cmd(
         else:
             coba_ = "\\" + CMD_HANDLER
             sudo_ = "\\" + SUDO_HANDLER
-            ram_reg = re.compile(ram_ + pattern)
+            coba_reg = re.compile(ram_ + pattern)
             sudo_reg = re.compile(sudo_ + pattern)
             if command is not None:
                 cmd1 = coba_ + command
