@@ -5,13 +5,13 @@ FROM vckyouuu/geezprojects:buster
 #
 #YA UDH IYA PEPEK
 
-RUN git clone -b KARMAN-USERBOT https://github.com/ArmanGG01/KARMAN-USERBOT /root/userbot
+RUN git clone -b COBA-UBOT https://github.com/ARMAN0012/COBA-UBOT /root/userbot
 RUN mkdir /root/userbot/.bin
 RUN pip install --upgrade pip setuptools
 WORKDIR /root/userbot
 
 #Install python requirements
-RUN pip3 install -r https://raw.githubusercontent.com/ArmanGG01/KARMAN-USERBOT/KARMAN-USERBOT/requirements.txt
+RUN pip3 install -r https://raw.githubusercontent.com/ARMAN0012/COBA-UBOT/COBA-UBOT/requirements.txt
 
 EXPOSE 80 443
 
