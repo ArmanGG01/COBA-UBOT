@@ -10,7 +10,6 @@ from pathlib import Path
 from telethon import events
 
 from userbot import (
-    BL_CHAT,
     CMD_HANDLER,
     CMD_LIST,
     LOAD_PLUG,
@@ -55,7 +54,7 @@ def coba_cmd(
         else:
             coba_ = "\\" + CMD_HANDLER
             sudo_ = "\\" + SUDO_HANDLER
-            coba_reg = re.compile(ram_ + pattern)
+            coba_reg = re.compile(coba_ + pattern)
             sudo_reg = re.compile(sudo_ + pattern)
             if command is not None:
                 cmd1 = coba_ + command
@@ -79,10 +78,10 @@ def coba_cmd(
     def decorator(func):
         if not disable_edited:
             bot.add_event_handler(
-                func, events.MessageEdited(**args, outgoing=True, pattern=ram_reg)
+                func, events.MessageEdited(**args, outgoing=True, pattern=coba_reg)
             )
         bot.add_event_handler(
-            func, events.NewMessage(**args, outgoing=True, pattern=ram_reg)
+            func, events.NewMessage(**args, outgoing=True, pattern=coba_reg)
         )
         if allow_sudo:
             if not disable_edited:
