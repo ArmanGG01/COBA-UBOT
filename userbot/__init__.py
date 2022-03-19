@@ -1,19 +1,14 @@
-# Copyright (C) 2019 The Raphielscape Company LLC.
-# Licensed under the Raphielscape Public License, Version 1.d (the "License");
-# you may not use this file except in compliance with the License.
+# Yaa begitu lah
 
+""" Userbot initialization. """
 
+import logging
 import os
 import time
 import re
 import redis
-import io
-import random
-import sys
-import logging
 
-from datetime import datetime
-
+from platform import uname
 from sys import version_info
 from logging import basicConfig, getLogger, INFO, DEBUG
 from distutils.util import strtobool as sb
@@ -22,18 +17,23 @@ from math import ceil
 from pylast import LastFMNetwork, md5
 from pySmartDL import SmartDL
 from pymongo import MongoClient
+from git import Repo
+from datetime import datetime
 from redis import StrictRedis
+from markdown import markdown
 from dotenv import load_dotenv
-from telethon.errors import UserIsBlockedError
-from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from pytgcalls import PyTgCalls
 from requests import get
+from telethon.network.connection.tcpabridged import ConnectionTcpAbridged
 from telethon.sync import TelegramClient, custom, events
+from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.sessions import StringSession
 from telethon import Button, events, functions, types
 from telethon.utils import get_display_name
+from .storage import Storage
 
-redis_db = None
+def STORAGE(n):
+    return Storage(Path("data") / n)
 
 load_dotenv("config.env")
 
