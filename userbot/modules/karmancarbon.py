@@ -18,7 +18,7 @@ from userbot import CMD_HANDLER as cmd
 from userbot import CMD_HELP
 from userbot.utils import edit_delete, edit_or_reply, kar_cmd
 from userbot.utils.misc import Carbon
-from .ramcals import vcmention
+from .karmancals import vcmention
 
 all_col = [
     "Black",
