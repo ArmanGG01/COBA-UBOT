@@ -16,7 +16,7 @@ DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 # ============================================
 
 
-@kar_cmd(outgoing=True, pattern="^.help(?: |$)(.*)")
+@register(outgoing=True, pattern="^.help(?: |$)(.*)")
 async def help(KarmanNewuser_bot):
     """ For .help command,"""
     args = KarmanNewuser_bot.pattern_match.group(1).lower()
