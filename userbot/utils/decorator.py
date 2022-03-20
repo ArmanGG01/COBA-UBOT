@@ -55,7 +55,7 @@ def kar_cmd(
         else:
             kar_ = "\\" + CMD_HANDLER
             sudo_ = "\\" + SUDO_HANDLER
-            kar_reg = re.compile(coba_ + pattern)
+            kar_reg = re.compile(kar_ + pattern)
             sudo_reg = re.compile(sudo_ + pattern)
             if command is not None:
                 cmd1 = kar_ + command
