@@ -44,16 +44,16 @@ def kar_cmd(
         args["chats"] = black_list_chats
 
     if pattern is not None:
-        global coba_reg
+        global kar_reg
         global sudo_reg
         if (
             pattern.startswith(r"\#")
             or not pattern.startswith(r"\#")
             and pattern.startswith(r"^")
         ):
-            coba_reg = sudo_reg = re.compile(pattern)
+            kar_reg = sudo_reg = re.compile(pattern)
         else:
-            coba_ = "\\" + CMD_HANDLER
+            kar_ = "\\" + CMD_HANDLER
             sudo_ = "\\" + SUDO_HANDLER
             kar_reg = re.compile(coba_ + pattern)
             sudo_reg = re.compile(sudo_ + pattern)
