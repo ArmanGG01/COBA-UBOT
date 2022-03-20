@@ -249,6 +249,19 @@ IG_ALIVE = os.environ.get("IG_ALIVE") or "instagram.com/arman_nasution123"
 # Default emoji help
 EMOJI_HELP = os.environ.get("EMOJI_HELP") or "👑"
 
+INLINE_PIC = (
+    os.environ.get("INLINE_PIC") or "https://telegra.ph/file/9dc4e335feaaf6a214818.jpg"
+)
+
+# Picture For VCPLUGIN
+PLAY_PIC = (
+    os.environ.get("PLAY_PIC") or "https://telegra.ph/file/6213d2673486beca02967.png"
+)
+
+QUEUE_PIC = (
+    os.environ.get("QUEUE_PIC") or "https://telegra.ph/file/d6f92c979ad96b2031cba.png"
+)
+
 # Default .alive Group
 GROUP_LINK = os.environ.get(
     "GROUP_LINK") or "t.me/obrolansuar"
