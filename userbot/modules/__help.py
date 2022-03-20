@@ -29,7 +29,7 @@ logging.basicConfig(
     level=logging.WARNING)
 
 
-@kar_cmd(outgoing=True, pattern=r"^\.rhelp")
+@register(outgoing=True, pattern=r"^\.rhelp")
 async def yardim(event):
     try:
         tgbotusername = BOT_USERNAME
