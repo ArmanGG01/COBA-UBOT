@@ -13,7 +13,7 @@ from userbot.utils import edit_delete, edit_or_reply, kar_cmd
 from userbot.utils.misc import create_quotly
 from telethon.tl.functions.users import GetFullUserRequest
 
-from .ramcarbon import all_col
+from .karmancarbon import all_col
 
 
 @kar_cmd(pattern="q ?(.*)")
