@@ -9,6 +9,7 @@
     Google Drive manager for Userbot
 """
 
+
 import io
 import os
 import pickle
@@ -75,17 +76,9 @@ if __ is not None:
                     G_DRIVE_FOLDER_ID = __.split(
                         "folderview?id=")[1]
                 except IndexError:
-                    if any(map(str.isdigit, __)):
-                        _1 = True
-                    else:
-                        _1 = False
-                    if "-" in __ or "_" in __:
-                        _2 = True
-                    else:
-                        _2 = False
-                    if True in [_1 or _2]:
-                        pass
-                    else:
+                    _1 = any(map(str.isdigit, __))
+                    _2 = "-" in __ or "_" in __
+                    if True not in [_1 or _2]:
                         LOGS.info(
                             "G_DRIVE_FOLDER_ID "
                             "not a valid ID/URL...")
@@ -184,8 +177,7 @@ async def create_app(gdrive):
         else:
             await gdrive.edit("`Credentials is empty, please generate it...`")
             return False
-    service = build('drive', 'v3', credentials=creds, cache_discovery=False)
-    return service
+    return build('drive', 'v3', credentials=creds, cache_discovery=False)
 
 
 @register(pattern="^.gdreset(?: |$)", outgoing=True)
@@ -214,11 +206,11 @@ async def get_mimeType(name):
 
 async def download(gdrive, service, uri=None):
     global is_cancelled
-    reply = ''
     """ - Download files to local then upload - """
     if not isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
         required_file_name = None
+    reply = ''
     if uri:
         full_path = os.getcwd() + TEMP_DOWNLOAD_DIRECTORY.strip('.')
         if isfile(uri) and uri.endswith(".torrent"):
@@ -298,10 +290,7 @@ async def download(gdrive, service, uri=None):
             global parent_Id
             folder = await create_dir(service, file_name)
             parent_Id = folder.get('id')
-            webViewURL = (
-                "https://drive.google.com/drive/folders/"
-                + parent_Id
-            )
+            webViewURL = f"https://drive.google.com/drive/folders/{parent_Id}"
             try:
                 await task_directory(gdrive, service, required_file_name)
             except CancelProcess:
@@ -413,7 +402,7 @@ async def download_gdrive(gdrive, service, uri):
                 first = True
                 is_cancelled = False
                 for chunk in download.iter_content(CHUNK_SIZE):
-                    if is_cancelled is True:
+                    if is_cancelled:
                         raise CancelProcess
 
                     if not chunk:
@@ -429,11 +418,19 @@ async def download_gdrive(gdrive, service, uri):
                     speed = round(downloaded / diff, 2)
                     eta = round((file_size - downloaded) / speed)
                     prog_str = "`Downloading` | [{0}{1}] `{2}%`".format(
-                        "".join(["■" for i in range(
-                                math.floor(percentage / 10))]),
-                        "".join(["▨"for i in range(
-                                10 - math.floor(percentage / 10))]),
-                        round(percentage, 2))
+                        "".join(
+                            ["■" for _ in range(math.floor(percentage / 10))]
+                        ),
+                        "".join(
+                            [
+                                "▨"
+                                for _ in range(
+                                    10 - math.floor(percentage / 10)
+                                )
+                            ]
+                        ),
+                        round(percentage, 2),
+                    )
                     current_message = (
                         "`[FILE - DOWNLOAD]`\n\n"
                         f"`{file_name}`\n"
@@ -464,8 +461,8 @@ async def download_gdrive(gdrive, service, uri):
             is_cancelled = False
             current_time = time.time()
             display_message = None
-            while complete is False:
-                if is_cancelled is True:
+            while not complete:
+                if is_cancelled:
                     raise CancelProcess
 
                 status, complete = downloader.next_chunk()
@@ -477,11 +474,19 @@ async def download_gdrive(gdrive, service, uri):
                     speed = round(downloaded / diff, 2)
                     eta = round((file_size - downloaded) / speed)
                     prog_str = "`Downloading` | [{0}{1}] `{2}%`".format(
-                        "".join(["■" for i in range(
-                                math.floor(percentage / 10))]),
-                        "".join(["▨" for i in range(
-                                10 - math.floor(percentage / 10))]),
-                        round(percentage, 2))
+                        "".join(
+                            ["■" for _ in range(math.floor(percentage / 10))]
+                        ),
+                        "".join(
+                            [
+                                "▨"
+                                for _ in range(
+                                    10 - math.floor(percentage / 10)
+                                )
+                            ]
+                        ),
+                        round(percentage, 2),
+                    )
                     current_message = (
                         "`[FILE - DOWNLOAD]`\n\n"
                         f"`{file_name}`\n"
@@ -564,10 +569,17 @@ async def change_permission(service, Id):
 
 
 async def get_information(service, Id):
-    r = service.files().get(fileId=Id, fields="name, id, size, mimeType, "
-                            "webViewLink, webContentLink,"
-                            "description", supportsAllDrives=True).execute()
-    return r
+    return (
+        service.files()
+        .get(
+            fileId=Id,
+            fields="name, id, size, mimeType, "
+            "webViewLink, webContentLink,"
+            "description",
+            supportsAllDrives=True,
+        )
+        .execute()
+    )
 
 
 async def create_dir(service, folder_name):
@@ -576,8 +588,7 @@ async def create_dir(service, folder_name):
         'mimeType': 'application/vnd.google-apps.folder',
     }
     try:
-        if parent_Id is not None:
-            pass
+        pass
     except NameError:
         """ - Fallback to G_DRIVE_FOLDER_ID else root dir - """
         if G_DRIVE_FOLDER_ID is not None:
@@ -603,8 +614,7 @@ async def upload(gdrive, service, file_path, file_name, mimeType):
         "mimeType": mimeType,
     }
     try:
-        if parent_Id is not None:
-            pass
+        pass
     except NameError:
         """ - Fallback to G_DRIVE_FOLDER_ID else root dir - """
         if G_DRIVE_FOLDER_ID is not None:
@@ -627,7 +637,7 @@ async def upload(gdrive, service, file_path, file_name, mimeType):
     display_message = None
     is_cancelled = False
     while response is None:
-        if is_cancelled is True:
+        if is_cancelled:
             raise CancelProcess
 
         status, response = file.next_chunk()
@@ -639,11 +649,12 @@ async def upload(gdrive, service, file_path, file_name, mimeType):
             speed = round(uploaded / diff, 2)
             eta = round((file_size - uploaded) / speed)
             prog_str = "`Uploading` | [{0}{1}] `{2}%`".format(
-                "".join(["■" for i in range(
-                        math.floor(percentage / 10))]),
-                "".join(["▨" for i in range(
-                        10 - math.floor(percentage / 10))]),
-                round(percentage, 2))
+                "".join(["■" for _ in range(math.floor(percentage / 10))]),
+                "".join(
+                    ["▨" for _ in range(10 - math.floor(percentage / 10))]
+                ),
+                round(percentage, 2),
+            )
             current_message = (
                 "`[FILE - UPLOAD]`\n\n"
                 f"`{file_name}`\n"
@@ -674,7 +685,7 @@ async def task_directory(gdrive, service, folder_path):
         return parent_Id
     root_parent_Id = None
     for f in lists:
-        if is_cancelled is True:
+        if is_cancelled:
             raise CancelProcess
 
         current_f_name = join(folder_path, f)
@@ -694,8 +705,7 @@ async def task_directory(gdrive, service, folder_path):
 async def reset_parentId():
     global parent_Id
     try:
-        if parent_Id is not None:
-            pass
+        pass
     except NameError:
         if G_DRIVE_FOLDER_ID is not None:
             parent_Id = G_DRIVE_FOLDER_ID
@@ -721,25 +731,23 @@ async def lists(gdrive):
     else:
         page_size = 50  # default page_size is 50
     checker = gdrive.pattern_match.group(2)
-    if checker != '':
-        if checker.startswith('-p'):
-            parents = checker.split(None, 2)[1]
-            try:
-                name = checker.split(None, 2)[2]
-            except IndexError:
-                query = f"'{parents}' in parents and (name contains '*')"
-            else:
-                query = f"'{parents}' in parents and (name contains '{name}')"
-        else:
-            if re.search('-p (.*)', checker):
-                parents = re.search('-p (.*)', checker).group(1)
-                name = checker.split('-p')[0].strip()
-                query = f"'{parents}' in parents and (name contains '{name}')"
-            else:
-                name = checker
-                query = f"name contains '{name}'"
-    else:
+    if checker == '':
         query = ''
+    elif checker.startswith('-p'):
+        parents = checker.split(None, 2)[1]
+        try:
+            name = checker.split(None, 2)[2]
+        except IndexError:
+            query = f"'{parents}' in parents and (name contains '*')"
+        else:
+            query = f"'{parents}' in parents and (name contains '{name}')"
+    elif re.search('-p (.*)', checker):
+        parents = re.search('-p (.*)', checker).group(1)
+        name = checker.split('-p')[0].strip()
+        query = f"'{parents}' in parents and (name contains '{name}')"
+    else:
+        name = checker
+        query = f"name contains '{name}'"
     service = await create_app(gdrive)
     if service is False:
         return False
@@ -832,8 +840,7 @@ async def google_drive_managers(gdrive):
             'mimeType': 'application/vnd.google-apps.folder',
         }
         try:
-            if parent_Id is not None:
-                pass
+            pass
         except NameError:
             """ - Fallback to G_DRIVE_FOLDER_ID else to root dir - """
             if G_DRIVE_FOLDER_ID is not None:
